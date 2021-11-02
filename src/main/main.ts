@@ -80,6 +80,7 @@ const createWindow = async () => {
             preload: path.join(__dirname, 'preload.js'),
         },
     });
+    mainWindow.maximize();
 
     mainWindow.loadURL(resolveHtmlPath('index.html'));
 

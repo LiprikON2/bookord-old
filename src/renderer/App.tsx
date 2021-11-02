@@ -1,41 +1,15 @@
 import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
 import icon from '../../assets/icon.svg';
 import './App.css';
+import BookList from './components/library/BookList';
 
-const Hello = () => {
+const Library = () => {
     return (
-        <div>
-            <div className="Hello">
-                <img width="200px" alt="icon" src={icon} />
-            </div>
-            <h1>electron-react-boilerplate</h1>
-            <div className="Hello">
-                <a
-                    href="https://electron-react-boilerplate.js.org/"
-                    target="_blank"
-                    rel="noreferrer"
-                >
-                    <button type="button">
-                        <span role="img" aria-label="books">
-                            📚
-                        </span>
-                        Read our docs
-                    </button>
-                </a>
-                <a
-                    href="https://github.com/sponsors/electron-react-boilerplate"
-                    target="_blank"
-                    rel="noreferrer"
-                >
-                    <button type="button">
-                        <span role="img" aria-label="books">
-                            🙏
-                        </span>
-                        Donate
-                    </button>
-                </a>
-            </div>
-        </div>
+        <>
+            <h1>Library</h1>
+            <img width="100px" alt="icon" src={icon} />
+            <BookList />
+        </>
     );
 };
 
@@ -43,7 +17,7 @@ export default function App() {
     return (
         <Router>
             <Switch>
-                <Route path="/" component={Hello} />
+                <Route path="/" component={Library} />
             </Switch>
         </Router>
     );
