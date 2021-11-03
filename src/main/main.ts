@@ -11,11 +11,13 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+
+const bookUpload = require('./bookUpload');
 
 export default class AppUpdater {
     constructor() {
@@ -78,6 +80,7 @@ const createWindow = async () => {
         icon: getAssetPath('icon.png'),
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
+            nodeIntegration: true,
         },
     });
     mainWindow.maximize();
@@ -132,6 +135,56 @@ app.whenReady()
             // On macOS it's common to re-create a window in the app when the
             // dock icon is clicked and there are no other windows open.
             if (mainWindow === null) createWindow();
+
+            bookUpload.watchFiles(mainWindow);
         });
     })
     .catch(console.log);
+
+// File handling
+
+// return list of files
+ipcMain.handle('app:get-files', () => {
+    return bookUpload.getFiles();
+});
+
+// listen to file(s) add event
+ipcMain.handle('app:on-file-add', (_event, files = []) => {
+    bookUpload.addFiles(files);
+});
+
+// open filesystem dialog to choose files
+ipcMain.handle('app:on-fs-dialog-open', (_event) => {
+    const files = dialog.showOpenDialogSync({
+        properties: ['openFile', 'multiSelections'],
+    });
+
+    if (files) {
+        bookUpload.addFiles(
+            files.map((filepath) => {
+                return {
+                    name: path.parse(filepath).base,
+                    path: filepath,
+                };
+            })
+        );
+    }
+});
+
+// listen to file delete event
+ipcMain.on('app:on-file-delete', (_event, file) => {
+    bookUpload.deleteFile(file.filepath);
+});
+
+// listen to file open event
+ipcMain.on('app:on-file-open', (_event, file) => {
+    bookUpload.openFile(file.filepath);
+});
+
+// listen to file copy event
+ipcMain.on('app:on-file-copy', (event, file) => {
+    event.sender.startDrag({
+        file: file.filepath,
+        icon: path.resolve(__dirname, '../../assets/file_ghost.png'),
+    });
+});
