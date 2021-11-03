@@ -83,7 +83,6 @@ const createWindow = async () => {
         icon: getAssetPath('icon.png'), // todo fix favicon
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
-            nodeIntegration: true,
         },
     });
     mainWindow.maximize();

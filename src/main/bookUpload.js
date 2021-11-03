@@ -65,8 +65,6 @@ exports.openFile = (filename) => {
     }
 };
 
-/*-----*/
-
 // watch files from the application's storage directory
 exports.watchFiles = (win) => {
     chokidar.watch(appDir).on('unlink', (filepath) => {

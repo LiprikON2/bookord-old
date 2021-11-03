@@ -6,7 +6,7 @@ const { ipcRenderer } = electron;
 const dragDrop = require('drag-drop');
 
 // local dependencies
-const dom = require('./BookUploadDom');
+const dom = require('./_BookUploadDom');
 
 // get list of files from the `main` process
 ipcRenderer
@@ -49,19 +49,19 @@ dragDrop('#uploader', (files) => {
         .catch(() => null);
 });
 
-// // open filesystem dialog
-// window.openDialog = () => {
-//     ipcRenderer
-//         .invoke('app:on-fs-dialog-open')
-//         .then(() => {
-//             ipcRenderer
-//                 .invoke('app:get-files')
-//                 .then((files = []) => {
-//                     dom.displayFiles(files);
-//                 })
-//                 .catch(() => null);
+// open filesystem dialog
+window.openDialog = () => {
+    ipcRenderer
+        .invoke('app:on-fs-dialog-open')
+        .then(() => {
+            ipcRenderer
+                .invoke('app:get-files')
+                .then((files = []) => {
+                    dom.displayFiles(files);
+                })
+                .catch(() => null);
 
-//             return null;
-//         })
-//         .catch(() => null);
-// };
+            return null;
+        })
+        .catch(() => null);
+};
