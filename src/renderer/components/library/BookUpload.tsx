@@ -1,24 +1,14 @@
-import { useEffect } from 'react';
+import upload from '../../../../assets/upload.svg';
+
+require('./BookUploadRenderer');
 
 const BookUpload = () => {
-    useEffect(() => {
-        const script = document.createElement('script');
-
-        script.src = './BookUploadRenderer';
-        script.async = true;
-
-        document.body.appendChild(script);
-
-        return () => {
-            document.body.removeChild(script);
-        };
-    }, []);
     return (
         <>
             <div id="uploader" className="app__uploader">
                 <div className="app__uploader__icon-area">
                     <img
-                        src="../assets/upload.svg"
+                        src={upload}
                         className="app__uploader__icon-area__icon"
                         alt=""
                     />

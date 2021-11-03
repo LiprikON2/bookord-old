@@ -77,7 +77,10 @@ const createWindow = async () => {
         show: false,
         width: 1024,
         height: 728,
-        icon: getAssetPath('icon.png'),
+        minHeight: 500,
+        minWidth: 500,
+        backgroundColor: '#292a2d', // todo loading bg
+        icon: getAssetPath('icon.png'), // todo fix favicon
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: true,
