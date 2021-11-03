@@ -160,7 +160,6 @@ ipcMain.handle('app:on-fs-dialog-open', (_event) => {
     const files = dialog.showOpenDialogSync({
         properties: ['openFile', 'multiSelections'],
     });
-
     if (files) {
         bookUpload.addFiles(
             files.map((filepath) => {

@@ -37,30 +37,22 @@ const BookUpload = () => {
     // };
 
     const handleUpload = () => {
-        // eslint-disable-next-line no-console
-        console.log('You clicked');
-        // eslint-disable-next-line no-console
-        // ipcRenderer.once('ipc-example', (arg: string) => {
-        //     // eslint-disable-next-line no-console
-        //     console.log(`${arg}! Privet from react!`);
-        // });
-        ipcRenderer.myPing();
+        console.log('trying to invoke...');
+        ipcRenderer.invoke('app:on-fs-dialog-open');
+        // .then(() => {
+        //     // eslint-disable-next-line promise/no-nesting
+        //     ipcRenderer
+        //         .invoke('app:get-files')
+        //         .then((files: File[] = []) => {
+        //             console.log(files);
+        //             // displayFiles(files);
+        //             return null;
+        //         })
+        //         .catch(() => null);
 
-        // ipcRenderer
-        //     .invoke('app:on-fs-dialog-open')
-        //     .then(() => {
-        //         // eslint-disable-next-line promise/no-nesting
-        //         ipcRenderer
-        //             .invoke('app:get-files')
-        //             .then((files: File[] = []) => {
-        //                 displayFiles(files);
-        //                 return null;
-        //             })
-        //             .catch(() => null);
-
-        //         return null;
-        //     })
-        //     .catch(() => null);
+        //     return null;
+        // })
+        // .catch(() => null);
     };
     return (
         <>

@@ -15,8 +15,14 @@ contextBridge.exposeInMainWorld('electron', {
         once(channel, func) {
             const validChannels = ['ipc-example'];
             if (validChannels.includes(channel)) {
-                // Deliberately strip event as it includes `sender`
+                // Deliberately strip event as it includes `sender` // todo understand what does it mean
                 ipcRenderer.once(channel, (event, ...args) => func(...args));
+            }
+        },
+        invoke(channel, func) {
+            const validChannels = ['ipc-example', 'app:on-fs-dialog-open'];
+            if (validChannels.includes(channel)) {
+                ipcRenderer.invoke(channel, func);
             }
         },
     },
