@@ -1,5 +1,11 @@
 import upload from '../../../../assets/upload.svg';
 
+declare global {
+    interface Window {
+        require: any;
+    }
+}
+
 require('./BookUploadRenderer');
 
 const BookUpload = () => {

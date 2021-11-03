@@ -1,47 +1,53 @@
 // const { ipcRenderer } = window.require('electron');
 
-// const dragDrop = require('drag-drop');
+const electron = window.require('electron');
+const { ipcRenderer } = electron;
 
-// // local dependencies
-// const dom = require('./BookUploadDom');
+const dragDrop = require('drag-drop');
 
-// // get list of files from the `main` process
-// ipcRenderer
-//     .invoke('app:get-files')
-//     .then((files = []) => {
-//         dom.displayFiles(files);
-//         return null;
-//     })
-//     .catch(() => null);
+// local dependencies
+const dom = require('./BookUploadDom');
 
-// // handle file delete event
-// ipcRenderer.on('app:delete-file', (event, filename) => {
-//     document.getElementById(filename).remove();
-// });
+// get list of files from the `main` process
+ipcRenderer
+    .invoke('app:get-files')
+    .then((files = []) => {
+        dom.displayFiles(files);
+        return null;
+    })
+    .catch(() => null);
 
-// // add files drop listener
-// dragDrop('#uploader', (files) => {
-//     const filesVar = files.map((file) => {
-//         return {
-//             name: file.name,
-//             path: file.path,
-//         };
-//     });
+// handle file delete event
+ipcRenderer.on('app:delete-file', (_event, filename) => {
+    const file = document.getElementById(filename);
+    if (file) {
+        file.remove();
+    }
+});
 
-//     // send file(s) add event to the `main` process
-//     ipcRenderer
-//         .invoke('app:on-file-add', filesVar)
-//         .then(() => {
-//             ipcRenderer
-//                 .invoke('app:get-files')
-//                 .then((files = []) => {
-//                     dom.displayFiles(files);
-//                 })
-//                 .catch(() => null);
-//             return null;
-//         })
-//         .catch(() => null);
-// });
+// add files drop listener
+dragDrop('#uploader', (files) => {
+    const filesVar = files.map((file) => {
+        return {
+            name: file.name,
+            path: file.path,
+        };
+    });
+
+    // send file(s) add event to the `main` process
+    ipcRenderer
+        .invoke('app:on-file-add', filesVar)
+        .then(() => {
+            ipcRenderer
+                .invoke('app:get-files')
+                .then((files = []) => {
+                    dom.displayFiles(files);
+                })
+                .catch(() => null);
+            return null;
+        })
+        .catch(() => null);
+});
 
 // // open filesystem dialog
 // window.openDialog = () => {

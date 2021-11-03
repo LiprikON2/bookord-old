@@ -1,4 +1,7 @@
-const { ipcRenderer } = window.require('electron');
+// const { ipcRenderer } = window.require('electron');
+
+const electron = window.require('electron');
+const { ipcRenderer } = electron;
 
 // copy file
 window.copyFile = (event, itemId) => {
@@ -34,7 +37,9 @@ window.openFile = (itemId) => {
 
 exports.displayFiles = (files = []) => {
     const fileListElem = document.getElementById('filelist');
-    fileListElem.innerHTML = '';
+    if (fileListElem) {
+        fileListElem.innerHTML = '';
+    }
 
     files.forEach((file) => {
         const itemDomElem = document.createElement('div');
