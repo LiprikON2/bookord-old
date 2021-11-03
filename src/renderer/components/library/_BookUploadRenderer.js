@@ -1,3 +1,4 @@
+/* eslint-disable promise/no-nesting */
 // const { ipcRenderer } = window.require('electron');
 
 const electron = window.require('electron');
