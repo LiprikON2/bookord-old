@@ -1,23 +1,15 @@
 import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
-import icon from '../../assets/icon.svg';
-import './App.css';
-import BookList from './components/library/BookList';
 
-const Library = () => {
-    return (
-        <>
-            <h1>Library</h1>
-            <img width="100px" alt="icon" src={icon} />
-            <BookList />
-        </>
-    );
-};
+import './App.css';
+import LibraryView from './components/library/LibraryView';
+import ReadView from './components/read/ReadView';
 
 export default function App() {
     return (
         <Router>
             <Switch>
-                <Route path="/" component={Library} />
+                <Route exact path="/" component={LibraryView} />
+                <Route path="/read/:id/" component={ReadView} />
             </Switch>
         </Router>
     );
